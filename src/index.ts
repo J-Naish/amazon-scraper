@@ -133,16 +133,3 @@ export async function scrapeAmazonSponsored(searchWords: string[]): Promise<Arra
   return sponsoredProducts;
 }
 
-// Main function for direct execution
-async function main() {
-  const sponsoredProducts = await scrapeAmazonSponsored(["化粧水", "美白"]);
-  console.log(`Found ${sponsoredProducts.length} sponsored products`);
-  sponsoredProducts.forEach((product, index) => {
-    console.log(`${index + 1}. ${product.text}`);
-  });
-}
-
-// Only run main if this file is executed directly
-if (require.main === module) {
-  main().catch(console.error);
-}
