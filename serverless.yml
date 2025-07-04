@@ -1,0 +1,59 @@
+service: amazon-scraper
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: us-east-1
+  timeout: 300
+  memorySize: 1024
+  environment:
+    NODE_ENV: production
+    PUPPETEER_EXECUTABLE_PATH: /opt/chromium/chromium
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+          Resource: '*'
+
+functions:
+  scrapeSponsored:
+    handler: dist/handler.scrapeSponsored
+    timeout: 300
+    memorySize: 1024
+    events:
+      - http:
+          path: /scrape
+          method: get
+          cors: true
+          request:
+            parameters:
+              querystrings:
+                q: false
+                search: false
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-plugin-chrome
+
+custom:
+  chrome:
+    flags:
+      - --no-sandbox
+      - --disable-setuid-sandbox
+      - --disable-dev-shm-usage
+      - --disable-gpu
+      - --single-process
+
+package:
+  patterns:
+    - '!node_modules/puppeteer/.local-chromium/**'
+    - '!node_modules/puppeteer/.local-firefox/**'
+    - '!test/**'
+    - '!*.md'
+    - '!.git/**'

@@ -6,6 +6,11 @@
     "build": "tsc",
     "start": "npm run build && node dist/index.js",
     "dev": "ts-node src/index.ts",
+    "deploy": "serverless deploy",
+    "deploy:dev": "serverless deploy --stage dev",
+    "deploy:prod": "serverless deploy --stage prod",
+    "local": "serverless offline",
+    "logs": "serverless logs -f scrapeSponsored",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -13,11 +18,17 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@types/aws-lambda": "^8.10.150",
     "@types/node": "^24.0.10",
     "puppeteer": "^24.11.2",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
+  },
+  "devDependencies": {
+    "serverless": "^3.40.0",
+    "serverless-plugin-chrome": "^1.0.0-55.3",
+    "serverless-plugin-typescript": "^2.1.5"
   }
 }
