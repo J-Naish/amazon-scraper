@@ -3,28 +3,23 @@ import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 
 puppeteer.use(StealthPlugin());
 
-
-function generateUrl(searchWords: string[]): string {
-
+export function generateUrl(searchWords: string[]): string {
   const baseUrl = "https://amazon.co.jp";
-
   const encodedSearchWords = searchWords.map((word) => {
     return encodeURIComponent(word);
   });
-
   const keyword = encodedSearchWords.join("+");
   const locale = encodeURIComponent("カタカナ");
   const sprefix = keyword;
-
   return `${baseUrl}/s?k=${keyword}&__mk_ja_JP=${locale}&sprefix=${sprefix}`;
 }
 
-
-async function main() {
+export async function scrapeAmazonSponsored(searchWords: string[]): Promise<Array<{text: string}>> {
   console.log('Starting Amazon scraper...');
   
   const browser = await puppeteer.launch({
     headless: true,
+    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || undefined,
     devtools: false,
     args: [
       '--lang=ja-JP',
@@ -34,7 +29,9 @@ async function main() {
       '--no-sandbox',
       '--disable-setuid-sandbox',
       '--disable-dev-shm-usage',
-      '--disable-blink-features=AutomationControlled'
+      '--disable-blink-features=AutomationControlled',
+      '--disable-gpu',
+      '--single-process'
     ]
   });
 
@@ -122,7 +119,6 @@ async function main() {
 
           products.push({
             text: title,
-            innerHTML: productContainer.innerHTML
           });
         }
       });
@@ -137,9 +133,16 @@ async function main() {
   return sponsoredProducts;
 }
 
-main().then(sponsoredProducts => {
+// Main function for direct execution
+async function main() {
+  const sponsoredProducts = await scrapeAmazonSponsored(["化粧水", "美白"]);
   console.log(`Found ${sponsoredProducts.length} sponsored products`);
   sponsoredProducts.forEach((product, index) => {
     console.log(`${index + 1}. ${product.text}`);
   });
-}).catch(console.error);
+}
+
+// Only run main if this file is executed directly
+if (require.main === module) {
+  main().catch(console.error);
+}

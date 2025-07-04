@@ -17,7 +17,11 @@
     "logs": "serverless logs -f scrapeSponsored",
     "logs:tail": "serverless logs -f scrapeSponsored --tail",
     "check": "tsc --noEmit",
-    "test": "npm run check && npm run test:handler"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:integration": "jest --testNamePattern='Integration Tests'",
+    "test:unit": "jest --testNamePattern='Unit Tests'"
   },
   "keywords": [],
   "author": "",
@@ -33,8 +37,11 @@
     "typescript": "^5.8.3"
   },
   "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "jest": "^30.0.4",
     "serverless": "^3.40.0",
     "serverless-plugin-chrome": "^1.0.0-55.3",
-    "serverless-plugin-typescript": "^2.1.5"
+    "serverless-plugin-typescript": "^2.1.5",
+    "ts-jest": "^29.4.0"
   }
 }
