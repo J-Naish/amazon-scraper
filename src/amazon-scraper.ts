@@ -15,9 +15,11 @@ export function buildAmazonJapanSearchUrl(searchTerms: string[]): string {
 export async function scrapeAmazonJapanSponsoredProducts(searchTerms: string[]): Promise<Array<{title: string}>> {
   console.log('スクレイピングを開始します');
 
+  const dynamicImport = new Function("specifier", "return import(specifier)");
+
   const [puppeteerModule, chromiumModule] = await Promise.all([
-    import("puppeteer-core"),
-    import("@sparticuz/chromium")
+    dynamicImport("puppeteer-core"),
+    dynamicImport("@sparticuz/chromium")
   ]);
 
   const puppeteer = puppeteerModule.default;

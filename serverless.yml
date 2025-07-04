@@ -6,7 +6,7 @@ provider:
   name: aws
   runtime: nodejs20.x
   region: us-east-1
-  timeout: 30
+  timeout: 300
   memorySize: 512
   environment:
     NODE_ENV: production
