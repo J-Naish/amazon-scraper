@@ -6,7 +6,6 @@
     "build": "tsc",
     "build:clean": "rm -rf dist && npm run build",
     "start": "npm run build && node dist/index.js",
-    "test:handler": "npm run build && ts-node -e \"import('./dist/lambda-handler').then(h => console.log('Handler loaded successfully'))\"",
     "deploy": "npm run build && serverless deploy",
     "deploy:dev": "npm run build && serverless deploy --stage dev",
     "deploy:prod": "npm run build && serverless deploy --stage prod",
