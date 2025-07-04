@@ -45,3 +45,6 @@ package:
     - '!*.md'
     - '!.git/**'
     - '!src/__tests__/**'
+    - '!src/**/*.ts'
+    - 'dist/**'
+    - 'node_modules/**'
