@@ -1,6 +1,8 @@
 org: llcmeme
 
-service: amazon-scraper
+app: scraper
+
+service: amazon
 
 frameworkVersion: '3'
 
