@@ -108,8 +108,11 @@ async function main() {
                                 el.closest('div[role="listitem"]')?.querySelector('[data-cy="title-recipe"]');
 
         if (productContainer && !products.some(p => p.innerHTML === productContainer.innerHTML)) {
+          const h2Element = productContainer.querySelector('h2');
+          const title = h2Element ? h2Element.textContent?.trim() : '';
+
           products.push({
-            text: productContainer.textContent?.trim(),
+            text: title,
             innerHTML: productContainer.innerHTML
           });
         }
