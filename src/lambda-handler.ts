@@ -12,11 +12,6 @@ export const scrapeAmazonSponsoredProducts = async (
 
     console.log('Lambda invoked with search terms:', searchWords);
 
-    // Set Lambda-specific environment for Puppeteer
-    if (!process.env.PUPPETEER_EXECUTABLE_PATH) {
-      process.env.PUPPETEER_EXECUTABLE_PATH = '/opt/chromium/chromium';
-    }
-
     const sponsoredProducts = await scrapeAmazonJapanSponsoredProducts(searchWords);
 
     return {

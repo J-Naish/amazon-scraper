@@ -6,6 +6,7 @@
     "build": "tsc",
     "build:clean": "rm -rf dist && npm run build",
     "start": "npm run build && node dist/index.js",
+    "test:handler": "npm run build && ts-node -e \"import('./dist/lambda-handler').then(h => console.log('Handler loaded successfully'))\"",
     "deploy": "npm run build && serverless deploy",
     "deploy:dev": "npm run build && serverless deploy --stage dev",
     "deploy:prod": "npm run build && serverless deploy --stage prod",
@@ -18,9 +19,8 @@
   "dependencies": {
     "@types/aws-lambda": "^8.10.150",
     "@types/node": "^24.0.10",
-    "puppeteer": "^24.11.2",
-    "puppeteer-extra": "^3.3.6",
-    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "chrome-aws-lambda": "^10.1.0",
+    "puppeteer-core": "^10.4.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   },
@@ -28,7 +28,6 @@
     "@types/jest": "^30.0.0",
     "jest": "^30.0.4",
     "serverless": "^3.40.0",
-    "serverless-plugin-chrome": "^1.0.0-55.3",
     "serverless-plugin-typescript": "^2.1.5",
     "ts-jest": "^29.4.0"
   }

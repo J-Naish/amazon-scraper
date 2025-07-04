@@ -14,7 +14,6 @@ provider:
   memorySize: 1024
   environment:
     NODE_ENV: production
-    PUPPETEER_EXECUTABLE_PATH: /opt/chromium/chromium
   iam:
     role:
       statements:
@@ -43,21 +42,10 @@ functions:
 
 plugins:
   - serverless-plugin-typescript
-  - serverless-plugin-chrome
-
-custom:
-  chrome:
-    flags:
-      - --no-sandbox
-      - --disable-setuid-sandbox
-      - --disable-dev-shm-usage
-      - --disable-gpu
-      - --single-process
 
 package:
   patterns:
-    - '!node_modules/puppeteer/.local-chromium/**'
-    - '!node_modules/puppeteer/.local-firefox/**'
     - '!test/**'
     - '!*.md'
     - '!.git/**'
+    - '!src/__tests__/**'

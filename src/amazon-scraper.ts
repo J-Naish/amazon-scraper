@@ -1,7 +1,5 @@
-import puppeteer from 'puppeteer-extra';
-import StealthPlugin from 'puppeteer-extra-plugin-stealth';
-
-puppeteer.use(StealthPlugin());
+import puppeteer from 'puppeteer-core';
+import chromium from 'chrome-aws-lambda';
 
 export function buildAmazonJapanSearchUrl(searchTerms: string[]): string {
   const baseUrl = "https://amazon.co.jp";
@@ -18,21 +16,17 @@ export async function scrapeAmazonJapanSponsoredProducts(searchTerms: string[]):
   console.log('Starting Amazon scraper...');
   
   const browser = await puppeteer.launch({
-    headless: true,
-    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || undefined,
-    devtools: false,
     args: [
+      ...chromium.args,
       '--lang=ja-JP',
       '--accept-lang=ja-JP',
       '--disable-web-security',
-      '--disable-features=VizDisplayCompositor',
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-dev-shm-usage',
-      '--disable-blink-features=AutomationControlled',
-      '--disable-gpu',
-      '--single-process'
-    ]
+      '--disable-features=VizDisplayCompositor'
+    ],
+    defaultViewport: chromium.defaultViewport,
+    executablePath: await chromium.executablePath,
+    headless: chromium.headless,
+    ignoreHTTPSErrors: true,
   });
 
   const page = await browser.newPage();
@@ -44,8 +38,10 @@ export async function scrapeAmazonJapanSponsoredProducts(searchTerms: string[]):
     });
   });
 
-  // Set viewport to mimic a real browser
-  await page.setViewport({ width: 1366, height: 768 });
+  // Set viewport (chrome-aws-lambda provides optimized defaults)
+  if (!chromium.defaultViewport) {
+    await page.setViewport({ width: 1366, height: 768 });
+  }
 
   const requestHeaders = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36",

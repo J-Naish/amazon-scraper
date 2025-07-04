@@ -193,8 +193,8 @@ npm run test:coverage
 
 ### 使用技術
 - **TypeScript**: 型安全な開発
-- **Puppeteer**: ヘッドレスブラウザ自動化
-- **Puppeteer Extra**: ステルス機能によるボット検出回避
+- **Puppeteer Core**: 軽量なヘッドレスブラウザ自動化
+- **Chrome AWS Lambda**: AWS Lambda最適化Chromeバイナリ
 - **AWS Lambda**: サーバーレス実行環境
 - **Serverless Framework**: インフラストラクチャ管理
 - **Jest**: テストフレームワーク
