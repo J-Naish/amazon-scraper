@@ -14,17 +14,8 @@
     "invoke:local": "npm run build && serverless invoke local -f scrapeAmazonSponsoredProducts",
     "logs": "serverless logs -f scrapeAmazonSponsoredProducts",
     "logs:tail": "serverless logs -f scrapeAmazonSponsoredProducts --tail",
-    "check": "tsc --noEmit",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "test:integration": "jest --testNamePattern='Integration Tests'",
-    "test:unit": "jest --testNamePattern='Unit Tests'"
+    "test": "jest"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
     "@types/aws-lambda": "^8.10.150",
     "@types/node": "^24.0.10",
