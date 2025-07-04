@@ -21,6 +21,8 @@ function generateUrl(searchWords: string[]): string {
 
 
 async function main() {
+  console.log('Starting Amazon scraper...');
+  
   const browser = await puppeteer.launch({
     headless: true,
     devtools: false,
@@ -61,10 +63,13 @@ async function main() {
   await page.setExtraHTTPHeaders({...requestHeaders});
 
   const url = generateUrl(["化粧水", "美白"]);
+  console.log('Navigating to:', url);
 
   await page.goto(url, { waitUntil: 'networkidle2' });
+  console.log('Page loaded successfully');
 
   // Simulate human behavior - scroll and wait
+  console.log('Simulating human scrolling behavior...');
   await page.evaluate(() => {
     window.scrollTo(0, document.body.scrollHeight / 4);
   });
@@ -80,16 +85,20 @@ async function main() {
   });
   await new Promise(resolve => setTimeout(resolve, 1000));
 
+  console.log('Waiting for sponsored products to load...');
   try {
     await page.waitForSelector('span.puis-sponsored-label-info-icon', { timeout: 10000 });
+    console.log('Sponsored products detected');
   } catch (error) {
     // Continue even if no sponsored products found
     console.error("広告商品が見つかりませんでした。");
     return [];
   }
 
+  console.log('Waiting for additional content to load...');
   await new Promise(resolve => setTimeout(resolve, 5000));
 
+  console.log('Starting to extract sponsored products...');
   const sponsoredProducts = await page.evaluate(() => {
     const products: any[] = [];
 
@@ -123,6 +132,7 @@ async function main() {
   });
 
   await browser.close();
+  console.log(`Extraction completed. Found ${sponsoredProducts.length} sponsored products`);
 
   return sponsoredProducts;
 }
