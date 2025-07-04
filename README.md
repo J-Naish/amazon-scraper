@@ -140,17 +140,17 @@ GET /scrape?q=検索キーワード1,検索キーワード2
 
 ```bash
 # 基本的な検索
-curl "https://your-api-gateway-url/scrape?q=化粧水,美白"
+curl "https://vdfx8j0433.execute-api.us-east-1.amazonaws.com/dev/scrape?q=化粧水,美白"
 
 # 複数キーワードでの検索
-curl "https://your-api-gateway-url/scrape?q=スマートフォン,iPhone,Android"
+curl "https://vdfx8j0433.execute-api.us-east-1.amazonaws.com/dev/scrape?q=スマートフォン,iPhone,Android"
 ```
 
 ### JavaScriptでの使用
 
 ```javascript
 // fetch APIを使用
-const response = await fetch('https://your-api-gateway-url/scrape?q=化粧水,美白');
+const response = await fetch('https://vdfx8j0433.execute-api.us-east-1.amazonaws.com/dev/scrape?q=化粧水,美白');
 const data = await response.json();
 
 if (data.success) {

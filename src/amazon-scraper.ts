@@ -1,5 +1,5 @@
 import puppeteer from 'puppeteer-core';
-import chromium from 'chrome-aws-lambda';
+import chromium from '@sparticuz/chromium';
 
 export function buildAmazonJapanSearchUrl(searchTerms: string[]): string {
   const baseUrl = "https://amazon.co.jp";
@@ -16,17 +16,11 @@ export async function scrapeAmazonJapanSponsoredProducts(searchTerms: string[]):
   console.log('Starting Amazon scraper...');
   
   const browser = await puppeteer.launch({
-    args: [
-      ...chromium.args,
-      '--lang=ja-JP',
-      '--accept-lang=ja-JP',
-      '--disable-web-security',
-      '--disable-features=VizDisplayCompositor'
-    ],
-    defaultViewport: chromium.defaultViewport,
-    executablePath: await chromium.executablePath,
-    headless: chromium.headless,
-    ignoreHTTPSErrors: true,
+    args: chromium.args,
+    defaultViewport: { width: 1366, height: 768 },
+    executablePath: await chromium.executablePath(),
+    headless: true,
+    ignoreDefaultArgs: ['--disable-extensions'],
   });
 
   const page = await browser.newPage();
@@ -38,10 +32,7 @@ export async function scrapeAmazonJapanSponsoredProducts(searchTerms: string[]):
     });
   });
 
-  // Set viewport (chrome-aws-lambda provides optimized defaults)
-  if (!chromium.defaultViewport) {
-    await page.setViewport({ width: 1366, height: 768 });
-  }
+  // Viewport is already set in launch options
 
   const requestHeaders = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36",

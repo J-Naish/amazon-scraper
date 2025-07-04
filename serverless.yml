@@ -1,8 +1,4 @@
-org: llcmeme
-
-app: scraper
-
-service: amazon
+service: amazon-scraper
 
 frameworkVersion: '3'
 
@@ -10,8 +6,8 @@ provider:
   name: aws
   runtime: nodejs20.x
   region: us-east-1
-  timeout: 300
-  memorySize: 1024
+  timeout: 30
+  memorySize: 512
   environment:
     NODE_ENV: production
   iam:
@@ -27,8 +23,8 @@ provider:
 functions:
   scrapeAmazonSponsoredProducts:
     handler: dist/lambda-handler.scrapeAmazonSponsoredProducts
-    timeout: 300
-    memorySize: 1024
+    timeout: 30
+    memorySize: 512
     events:
       - http:
           path: /scrape
@@ -40,8 +36,8 @@ functions:
                 q: false
                 search: false
 
-plugins:
-  - serverless-plugin-typescript
+# plugins:
+  # - serverless-plugin-typescript
 
 package:
   patterns:
