@@ -84,6 +84,8 @@ async function main() {
     await page.waitForSelector('span.puis-sponsored-label-info-icon', { timeout: 10000 });
   } catch (error) {
     // Continue even if no sponsored products found
+    console.error("広告商品が見つかりませんでした。");
+    return [];
   }
 
   await new Promise(resolve => setTimeout(resolve, 5000));
@@ -118,7 +120,7 @@ async function main() {
   });
 
   await browser.close();
-  
+
   return sponsoredProducts;
 }
 
