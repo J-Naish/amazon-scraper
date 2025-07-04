@@ -7,7 +7,7 @@ provider:
   runtime: nodejs20.x
   region: us-east-1
   timeout: 300
-  memorySize: 512
+  memorySize: 1024
   environment:
     NODE_ENV: production
   iam:
@@ -23,8 +23,8 @@ provider:
 functions:
   scrapeAmazonSponsoredProducts:
     handler: dist/lambda-handler.scrapeAmazonSponsoredProducts
-    timeout: 30
-    memorySize: 512
+    timeout: 300
+    memorySize: 1024
     events:
       - http:
           path: /scrape

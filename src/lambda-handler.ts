@@ -8,7 +8,7 @@ export const scrapeAmazonSponsoredProducts = async (
   try {
     // Get search words from query parameters or use default
     const searchQuery = event.queryStringParameters?.q || event.queryStringParameters?.search;
-    const searchWords = searchQuery ? searchQuery.split(',').map(word => word.trim()) : ["化粧水", "美白"];
+    const searchWords = searchQuery ? searchQuery.split(',').map(word => word.trim()) : [""];
 
     console.log('右記のパラメーターでLambdaが起動されました:', searchWords);
 
