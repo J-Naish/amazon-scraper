@@ -3,18 +3,18 @@ import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 
 puppeteer.use(StealthPlugin());
 
-export function generateUrl(searchWords: string[]): string {
+export function buildAmazonJapanSearchUrl(searchTerms: string[]): string {
   const baseUrl = "https://amazon.co.jp";
-  const encodedSearchWords = searchWords.map((word) => {
-    return encodeURIComponent(word);
+  const encodedSearchTerms = searchTerms.map((term) => {
+    return encodeURIComponent(term);
   });
-  const keyword = encodedSearchWords.join("+");
+  const keyword = encodedSearchTerms.join("+");
   const locale = encodeURIComponent("カタカナ");
   const sprefix = keyword;
   return `${baseUrl}/s?k=${keyword}&__mk_ja_JP=${locale}&sprefix=${sprefix}`;
 }
 
-export async function scrapeAmazonSponsored(searchWords: string[]): Promise<Array<{text: string}>> {
+export async function scrapeAmazonJapanSponsoredProducts(searchTerms: string[]): Promise<Array<{title: string}>> {
   console.log('Starting Amazon scraper...');
   
   const browser = await puppeteer.launch({
@@ -59,7 +59,7 @@ export async function scrapeAmazonSponsored(searchWords: string[]): Promise<Arra
 
   await page.setExtraHTTPHeaders({...requestHeaders});
 
-  const url = generateUrl(["化粧水", "美白"]);
+  const url = buildAmazonJapanSearchUrl(searchTerms);
   console.log('Navigating to:', url);
 
   await page.goto(url, { waitUntil: 'networkidle2' });
@@ -118,7 +118,7 @@ export async function scrapeAmazonSponsored(searchWords: string[]): Promise<Arra
           const title = h2Element ? h2Element.textContent?.trim() : '';
 
           products.push({
-            text: title,
+            title: title,
           });
         }
       });

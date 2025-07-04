@@ -24,8 +24,8 @@ provider:
           Resource: '*'
 
 functions:
-  scrapeSponsored:
-    handler: dist/handler.scrapeSponsored
+  scrapeAmazonSponsoredProducts:
+    handler: dist/lambda-handler.scrapeAmazonSponsoredProducts
     timeout: 300
     memorySize: 1024
     events:

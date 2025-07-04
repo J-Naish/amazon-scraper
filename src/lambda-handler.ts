@@ -1,7 +1,7 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
-import { scrapeAmazonSponsored } from './index';
+import { scrapeAmazonJapanSponsoredProducts } from './amazon-scraper';
 
-export const scrapeSponsored = async (
+export const scrapeAmazonSponsoredProducts = async (
   event: APIGatewayProxyEvent,
   context: Context
 ): Promise<APIGatewayProxyResult> => {
@@ -17,7 +17,7 @@ export const scrapeSponsored = async (
       process.env.PUPPETEER_EXECUTABLE_PATH = '/opt/chromium/chromium';
     }
 
-    const sponsoredProducts = await scrapeAmazonSponsored(searchWords);
+    const sponsoredProducts = await scrapeAmazonJapanSponsoredProducts(searchWords);
 
     return {
       statusCode: 200,
@@ -32,7 +32,7 @@ export const scrapeSponsored = async (
         searchTerms: searchWords,
         count: sponsoredProducts.length,
         products: sponsoredProducts.map(product => ({
-          title: product.text,
+          title: product.title,
         }))
       })
     };
