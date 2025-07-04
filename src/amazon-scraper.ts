@@ -1,5 +1,5 @@
-import puppeteer from 'puppeteer-core';
-import chromium from '@sparticuz/chromium';
+// import puppeteer from 'puppeteer-core';
+// import chromium from '@sparticuz/chromium';
 
 export function buildAmazonJapanSearchUrl(searchTerms: string[]): string {
   const baseUrl = "https://amazon.co.jp";
@@ -14,7 +14,15 @@ export function buildAmazonJapanSearchUrl(searchTerms: string[]): string {
 
 export async function scrapeAmazonJapanSponsoredProducts(searchTerms: string[]): Promise<Array<{title: string}>> {
   console.log('スクレイピングを開始します');
-  
+
+  const [puppeteerModule, chromiumModule] = await Promise.all([
+    import("puppeteer-core"),
+    import("@sparticuz/chromium")
+  ]);
+
+  const puppeteer = puppeteerModule.default;
+  const chromium = chromiumModule.default;
+
   const browser = await puppeteer.launch({
     args: chromium.args,
     defaultViewport: { width: 1366, height: 768 },
